@@ -16,16 +16,16 @@ public class RegisterUseCase {
         this.encoder = encoder;
     }
 
-    public User execute(String email, String password) {
+    public void execute(String email, String password) {
 
         if (repository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("Email já cadastrado");
         }
 
-        String encoded = encoder.encode(password);
+        var encoded = encoder.encode(password);
 
-        User user = new User(email, encoded);
+        var user = new User(email, encoded);
 
-        return repository.save(user);
+        repository.save(user);
     }
 }

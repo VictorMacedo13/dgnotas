@@ -48,4 +48,16 @@ public interface AuthAPI {
             @ApiResponse(responseCode = "401", description = "Token ausente ou inválido", content = @Content)
     })
     ResponseEntity<String> privateRoute(@AuthenticationPrincipal User user);
+
+    @Operation(
+            summary = "Rota admin",
+            description = "Acessível apenas por usuários com a role ADMIN. Requer token JWT.",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Acesso admin concedido"),
+            @ApiResponse(responseCode = "401", description = "Token ausente ou inválido", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso negado: requer role ADMIN", content = @Content)
+    })
+    ResponseEntity<String> adminRoute(@AuthenticationPrincipal User user);
 }

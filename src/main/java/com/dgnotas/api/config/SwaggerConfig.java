@@ -23,7 +23,7 @@ public class SwaggerConfig {
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("DGNotas")
-                                .email("contato@dgnotas.com")))
+                                .url("https://dg-notas-dev.vercel.app")))
                 .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
                 .components(new Components()
                         .addSecuritySchemes(SECURITY_SCHEME_NAME,

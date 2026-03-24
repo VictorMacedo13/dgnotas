@@ -6,6 +6,7 @@ import com.dgnotas.api.domain.model.User;
 import com.dgnotas.api.infrastructure.api.auth.model.request.AuthRequest;
 import com.dgnotas.api.infrastructure.api.auth.model.response.AuthResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class AuthController implements AuthAPI {
     @PostMapping("/login")
     @Override
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
-        String token = loginUseCase.execute(req.email(), req.password());
+        var token = loginUseCase.execute(req.email(), req.password());
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
@@ -45,5 +46,12 @@ public class AuthController implements AuthAPI {
     @Override
     public ResponseEntity<String> privateRoute(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok("olá, " + user.getEmail());
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Override
+    public ResponseEntity<String> adminRoute(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok("olá admin, " + user.getEmail());
     }
 }

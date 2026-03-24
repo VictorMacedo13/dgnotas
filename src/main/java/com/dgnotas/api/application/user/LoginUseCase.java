@@ -1,6 +1,5 @@
 package com.dgnotas.api.application.user;
 
-import com.dgnotas.api.domain.model.User;
 import com.dgnotas.api.domain.repository.UserRepository;
 import com.dgnotas.api.infrastructure.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +22,7 @@ public class LoginUseCase {
 
     public String execute(String email, String password) {
 
-        User user = repository.findByEmail(email)
+        var user = repository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         if (!encoder.matches(password, user.getPassword())) {
